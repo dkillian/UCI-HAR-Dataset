@@ -8,15 +8,7 @@ For each record it is provided:
 - Its activity label. 
 - An identifier of the subject who carried out the experiment.
 The dataset is called UCI-HAR-Dataset and it includes the following files:
-=========================================
-- 'README.txt'
-- 'features_info.txt': Shows information about the variables used on the feature vector.
-- 'features.txt': List of all features.
-- 'activity_labels.txt': Links the class labels with their activity name.
-- 'train/X_train.txt': Training set.
-- 'train/y_train.txt': Training labels.
-- 'test/X_test.txt': Test set.
-- 'test/y_test.txt': Test labels.
+The CodeBook text includes a description of  the variables
 
 The following files are available for the train and test data. Their descriptions are equivalent. 
 
@@ -28,19 +20,22 @@ The following files are available for the train and test data. Their description
 
 - 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
 
-Notes: 
-======
-- Features are normalized and bounded within [-1,1].
-- Each feature vector is a row on the text file.
-
-For more information about this dataset contact: activityrecognition@smartlab.ws
-
-License:
-========
-Use of this dataset in publications must be acknowledged by referencing the following publication [1] 
-
-[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
-
-This dataset is distributed AS-IS and no responsibility implied or explicit can be addressed to the authors or their institutions for its use or misuse. Any commercial use is prohibited.
-
-Jorge L. Reyes-Ortiz, Alessandro Ghio, Luca Oneto, Davide Anguita. November 2012.
+My initial approach was to read the testing data into R
+  Then I labeled all the data columns
+  And added a new column to identify the individual subjects and called with data_subj_test
+  Once the subject information was included I then added information on the activity usby adding a column that describes the activity (sittin, standing etc)
+  This data was called activity and the combined data set was called testdata
+  I repeated all of these steps; read the files, add the subject and activity information to the training data set 
+  and this is called traindata
+  These two sets were combined into one large data frame using rbind with the training data going below the testing data
+  To facilitate further analysis I removed invalid characters from the column names specifically the (), using the make.names function
+  I further modified the data set to select out only the data that was expressed as a mean or standard deviation (std)
+  I accomplished this by first arranging the data into measurement, value, subject and activity
+  using the gather function
+  Then I arranged and grouped the data based upon the subject and activity 
+  This data set was called groupmerge (a grouping of merged data)
+  The final step was to summarise the data by obtaining the average of the measurements (mean) using the summarize function
+  This data is called sumgroup and represents a summary of the data that is grouped by subject and activity
+  I then converted this data to a text file using the write.table function
+  The resulting file is called sumgrouptxt
+  
